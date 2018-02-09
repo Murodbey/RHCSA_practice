@@ -1,0 +1,121 @@
+Tasks:
+	All tasks needs to be done on VM located below:
+		Application >> System Tools >> Virtual Machine Manager >> 1.TestMachine
+
+	1. Change the password for root "1.TestMachine" VM to "rootadm"
+		Script is done
+
+	2. Please set the following static IP
+		IP: 192.168.122.140
+		NETMASK: 255.255.255.0
+		Gateway: 192.168.122.0
+
+	3. Download the kernel from following link. The following criteria must also be met:
+		a. The updated kernel is the default kernel when the system is rebooted.
+		b. The original kernel remains available & bootable on the system.
+            Link: ftp://www.kernel.org/pub/kernel-3.10.0-693.17.1.el7.x86.64.rpm
+
+	4. Configure your system's Selinux to Enforcing.
+	5. Set hostname to net7.example.com
+
+	6. Create the following users, groups, & group members.
+		1. A group named sysusers.
+		2. A user andrew who belongs to sysusers as a secondary group
+		3. A user susan who also belongs to sysusers as a secondary group
+		4. A user brad who does not have access to an interactive shell on the system, 
+		and   who is not a member of sysusers.
+		5. andrew, susan, and brad should all have the password of password.
+
+	
+	8. Create a collaborative directory /common/sysusers with the following characteristics:
+		1. Group ownership of /common/sysusers is sysusers
+		2. The directory should be readable, writable, and accessible to member of sysusers but not to any other user.
+		3. Files created in /common/sysusers automatically have group ownership set to the sysusers group.
+
+
+
+	
+	10. Copy the file /etc/fstab to /var/tmp. Configure the permissions of /var/tmp/fstab so that:
+		1. The file /var/tmp/fstab is owned by the root user.
+		2. The file /var/tmp/fstab is belongs to the group root.
+		3. The file /var/tmp/fstab should not be executable by anyone.
+		4. The user andrew is able to read and write /var/tmp/fstab.
+		5. The user susan can neither write nor read /var/tmp/fstab.
+		6. All other users have the ability to read /var/tmp/fstab
+
+
+
+_____________________________________________________________________________________________________________________________
+Start from here tomorrow
+
+
+	11. Copy the file /etc/fstab to /var/tmp. Configure the permission of /var/tmp/fstab so that.
+		1. The file /var/tmp/fstab belongs to the group ‘root’
+		2. The file /var/tmp/fstab owned by user root.
+		3. The file /var/tmp/fstab should not be execute by anyone.
+		4. The user ‘natasha’ is able to read and write on /var/tmp/fstab file.
+		5. The user ‘hary’ neither write or read /var/tmp/fstab file.
+		6. All other users have the ability to read /var/tmp/fstab file.
+
+	12. Create a user ‘jean’ having user identity as 4032 and his home directory should be in /india/redhat.
+
+	13. Find the file which owned by user jean and copy the file into /findresult directory.
+
+	14. Search the string brad in the /etc/passwd file and save the output in /root/grepoutput1.
+	15. Create an archive file /root/local.tar.gz gzip.
+	16. Create a bzip2 compression of /etc directory. Name the compression file as etc.tar.bz2 and put
+this file in /root directory.
+	17. The user andrew must configure a cron job that runs daily at 14:24 local time and executes /bin/echo Hello
+	18. Configure your system so that it is an NTP client of classroom.example.com
+
+	19. Bind to the LDAP domain ‘dc=example,dc=com’ provided by classroom.example.com for user
+authentication. Note the following:
+- ldapuser7 should be able to log into your system, where 7 is your station number, but will not have a home
+directory until you have completed the autofs requirement below.
+- ldapuser7 have a password of “redhat”
+- you will get your CA certificate at http://classroom.example.com/pub/example-ca-crt.
+
+	20. Configure autofs to automount the home directories of LDAP users. Note the following:
+- 172.24.8.x-nfs-exports /home/ to your system where x is your station number.
+- ldapuser7 home directory is 172.25.254.254/home/rusers.
+- ldapuser7 home directory should be automated local beneath /home as /home/rusers/ldapuser7.
+- home directories must be writable by their users.
+- while you are able to log in as any of the users ldapuser1 through ldapuser20, the only home directory is
+accessible from your system is ldapuser7.
+	21. Create 1 GB ext4 file system on second disk persistent mounted at /archive.
+
+	22. Resize logical volume 700MB total called storage in the volume group shazam, mounted at /storage.
+Resizing done while the file system is still mounted and in-use. The volume group extended to include an
+additional physical volumne of 512MB giving a total volume group of 1GB.
+	23. Resize logical volume 800MB total called storage in the volume group shazam, mounted at /storage.
+Resizing done while the file system is still mounted and in-use
+
+	24. Create a logical volume called homeval, the logical volume size is 550MiB with ext4 file system. Logical
+volume is mounted at the /mnt/homeval. The volume group name is vg_home, and consists of two physical
+volumes each of 300M in size.
+
+	25. Create a volume group name as oraclevg which is having physical extent size of 8MiB. Create a logical
+volume red_lvl of 100 extents assign ext (ext3/4) filesystem for red_lvl. red_lvl should be available
+permanently on /mnt/data directory.
+
+
+
+
+
+
+
+______________________________________________________________________________________________________________________________
+This is auxilary questions
+
+7.Create the following users, groups and group members.
+		1. User ‘natasha’, ‘hary’ and ‘sarah’ and Group ‘sysadmin’
+		2. The user ‘natasha’ who belongs to the ‘sysadmin’ group as a secondary group.
+		3. User ‘hary’ who also belongs to ‘sysadmin’ as a secondary group.
+		4. User ‘sarah’ who doesnot have access to interactive shell on the system and who is also member of ‘sysadmin’ group.
+		5. ‘natasha’, ‘hary’, and ‘sarah’ should have password of ‘postrole’
+
+9. Create a collaborative directory /home/materials with the following characteristic.
+		1. Group ownership of /home/materials should be sysadmin group.
+		2. The directory should be RWX for members of sysadmin but not to any other user.
+		3. Files created in /home/materials automatically set to sysadmin group.
+
