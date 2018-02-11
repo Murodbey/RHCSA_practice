@@ -221,28 +221,97 @@
 # fi
 
 
+# Create a user ‘jean’ having user identity as 4032 and his home directory should be in /india/redhat.
+# HOMEDIR=$(ansible testmachine1  -m shell -a "grep jean /etc/passwd" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk -F ':' '{print $6}' | awk -F "/" '{print $2}' | grep -v ^$) 2> /dev/null
+# REDHAT=$(ansible testmachine1  -m shell -a "grep jean /etc/passwd" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk -F ':' '{print $6}' | awk -F "/" '{print $3}' | grep -v ^$) 2> /dev/null
+# if [ $HOMEDIR == "india" ] && [ $REDHAT == "redhat" ]  2> /dev/null
+# then
+# 	echo "${green}The home directory is good${reset}"
+# else
+# 	echo "${red}The home directory is not good${reset}"
+# fi
+# USERID=$(ansible testmachine1  -m shell -a "id jean" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk '/jean/{print $1}' | cut -c5-8) 2> /dev/null
+# if [ $USERID == 4032 ] 2> /dev/null
+# then
+# 	echo "${green}The user id of Jean correct${reset}"
+# else
+# 	echo "${red}The user id of Jean is not correct${reset}"
+# fi
+
+# #13. Find the file which owned by user jean and copy the file into /findresults directory if needed please create the directory.
+# FINDRESULTS=$(ansible testmachine1  -m shell -a "ls / | grep -x findresults" --user=root --extra-vars "ansible_ssh_pass=redhat"   | grep findresults) 2> /dev/null
+# FILES=$(ansible testmachine1  -m shell -a "ls /findresults | grep -x files" --user=root --extra-vars "ansible_ssh_pass=redhat"   | grep files) 2> /dev/null
+# if [ $FINDRESULTS == "findresults" ] && [ $FILES == "files" ] 2> /dev/null
+# then
+# 	echo "${green}The folder findresults created and the files of Jean copied${reset}"
+# else
+# 	echo "${red}The folder findresults is not created and the files of Jean is not copied${reset}"
+# fi
+
+# 	#14. Search the string cbsp in the /etc/services file and save the output in /tmp/grepoutput.
+# CBSP=$(ansible testmachine1  -m shell -a "grep cbsp /tmp/grepoutput " --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk '/cbsp/{print $1}') 2> /dev/null
+# if [ $CBSP == "3gpp-cbsp" ] 2> /dev/null
+# then
+# 	echo "${green}The /etc/services content is good${reset}"
+# else
+# 	echo "${red}The /etc/services content is not good${reset}"
+# fi
+
+# #	15. Create an archive file /root/local.tar.gz gzip.
+#  GZIPFILE=$(ansible testmachine1  -m shell -a "file /root/local.tar.gz " --user=root --extra-vars "ansible_ssh_pass=redhat"    | awk '/gzip/{print $2}') 2> /dev/null
+#  if [ $GZIPFILE == "gzip" ] 2> /dev/null
+#  then
+#  	echo "${green}The file is zipped properly${reset}" 
+#  else
+#  	echo "${red}The file is not zipped properly${reset}"
+#  fi
 
 
+# # #16. Create a bzip2 compression of /etc directory. Name the compression file as etc.tar.bz2 and put this file in /root 		directory.
 
+#  BZIP2=$(ansible testmachine1  -m shell -a "file /root/etc.tar.bz2 " --user=root --extra-vars "ansible_ssh_pass=redhat"    | awk '/bzip2/{print $2}') 2> /dev/null
+#  if [ $BZIP2 == "bzip2" ] 2> /dev/null
+#  then
+#  	echo "${green}The Bzip2 file is created${reset}"
+#  else
+#  	echo "${red}The Bzip2 files is not created${reset}"
+#  fi
 
+# #--------------------------------------------------------------------------------------------------------------------------------------------------
+# #	21. Create 1 GB ext4 file system on second disk persistent mounted at /archive
+# FILESYSTEM=$(ansible testmachine1  -m shell -a "blkid " --user=root --extra-vars "ansible_ssh_pass=redhat"   | grep vdb | awk -F "=" '{print $3}' | sed 's/"ext4"/ext4/g') 2> /dev/null
+# if [ $FILESYSTEM == "ext4" ] 2> /dev/null
+# then
+# 	echo "${green}The filesystem is good${reset}"
+# else
+# 	echo "${red}The filesystme is not good${reset}"
+# fi
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# #	21. Create 1 GB ext4 file system on second disk persistent mounted at /archive
+# DEVICE=$(ansible testmachine1  -m shell -a "df -h" --user=root --extra-vars "ansible_ssh_pass=redhat"   | grep vdb | cut  -c6-8) 2> /dev/null
+# MOUNTPOINT=$(ansible testmachine1  -m shell -a "df -h" --user=root --extra-vars "ansible_ssh_pass=redhat"   | grep vdb | cut -c49-55) 2> /dev/null
+# if [ $DEVICE == "vdb" ] && [ $MOUNTPOINT == "archive" ] 2> /dev/null
+# then
+# 	echo "${green}The mounted vbd is good${reset}"
+# else
+# 	echo "${red}The mounted device is not good${reset}"
+# fi
+# FSTABDEVICE=$(ansible testmachine1  -m shell -a "grep vdb /etc/fstab" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk '/vdb/{print $1}' | cut -c6-8) 2> /dev/null
+# if [ $FSTABDEVICE == "vdb" ] 2> /dev/null
+# then
+# 	echo "${green}The device is in fstab${reset}"
+# else
+# 	echo "${red}The device is not in fstab${reset}"
+# fi
+# #	21. Create 1 GB ext4 file system on second disk persistent mounted at /archive
+# FSTABMOUNTPOINT=$(ansible testmachine1  -m shell -a "grep vdb /etc/fstab" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk '/vdb/{print $2}' | cut -c2-8) 2>  /dev/null
+# if [ $FSTABMOUNTPOINT == "archive" ] 2> /dev/null
+# then
+# 	echo "${green}The MOUNTPOINT is good${reset}"
+# else
+# 	echo "${red}The MOUNTPOINT is not good ${reset}"
+# fi
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
