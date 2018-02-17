@@ -14,7 +14,7 @@
 # #This line checks if the root password is correct
 # 1. Change the password for root "1.TestMachine" VM to "rootadm"
 SUCCESS=$(ansible testmachine1  -m ping  --user=root --extra-vars "ansible_ssh_pass=rootadm" | awk -F "|" '{print $2}'  | awk '{print $1}' | tr -s [:space:]) 2> /dev/null
-if [ $SUCCESS == "SUCCESS" ]
+if [ $SUCCESS == "SUCCESS"  ] 2> /dev/null
 then
 	echo "${green}1. The password set properly${reset}"
 else
@@ -29,7 +29,7 @@ IP=$(ansible testmachine1  -m setup  -a "filter=ansible_eth0 " --user=root --ext
 
 #This line checks if the IP address is correct
 IPADDRESS=$(echo $IP |  awk -F ":" '{print $2}' | awk -F ',' '{print $1}' |sed 's/"192.168.122.140"/192.168.122.140/g') 2> /dev/null
-if [ $IPADDRESS == "192.168.122.140" ]
+if [ $IPADDRESS == "192.168.122.140" ] 2> /dev/null 
 then
 	echo "${green}2.1 The IP address is correct${reset}"
 else
@@ -39,7 +39,7 @@ fi
 
 #This line checks if the Netmask is correct
 NETMASK=$(echo $IP | awk -F "," '{print $3}' | awk -F ":" '{print $2}' | sed 's/"255.255.255.0"/255.255.255.0/g')  2> /dev/null
-if [ $NETMASK == "255.255.255.0" ] 
+if [ $NETMASK == "255.255.255.0" ]  2> /dev/null 
 then
 	echo "${green}2.2 The NETMASK is correct${reset}"
 
@@ -48,7 +48,7 @@ else
 fi
 #This line check if the Gateway is correct
 GATEWAY=$(echo $IP  | awk -F "," '{print $4}' | awk '{print $2}' | sed 's/"192.168.122.0"/192.168.122.0/g') 2> /dev/null
-if [ $GATEWAY == "192.168.122.0" ]
+if [ $GATEWAY == "192.168.122.0" ] 2> /dev/null
 then
 	echo "${green}2.3 The Gateway is correct${reset}"
 else
@@ -61,7 +61,7 @@ fi
 #This line checks for proper kernel line
 # 3.0 Download the kernel from following link. The following criteria must also be met: 
 KERNEL=$(ansible testmachine1  -m setup  -a "filter=ansible_kernel" --user=root --extra-vars "ansible_ssh_pass=redhat1" | grep kernel | awk '{print $2}' | sed 's/"3.10.0-693.17.1.el7.x86_64"/3.10.0-693.17.1.el7.x86_64/g') 2> /dev/null
-if [ $KERNEL == "3.10.0-693.17.1.el7.x86_64" ]
+if [ $KERNEL == "3.10.0-693.17.1.el7.x86_64" ] 2> /dev/null 
 then
 	echo "${green}3.1 The kernel version is good${reset}"
 else
@@ -72,7 +72,7 @@ fi
 #This line checks for selinux 
 # 4.0 Configure your system's Selinux to Enforcing
 SELINUX=$(ansible testmachine1  -m setup  -a "filter=*selinux*" --user=root --extra-vars "ansible_ssh_pass=redhat1"  | grep config | awk '{print $2}' | sed 's/"enforcing",/enforcing/g') 2> /dev/null
-if [ $SELINUX == "enforcing" ]
+if [ $SELINUX == "enforcing" ] 2> /dev/null 
 then
 	echo "${green}4.1 The selinux is enforcing${reset}"
 else
@@ -83,7 +83,7 @@ fi
 #This line check for Hostname
 # 5.0 Set hostname to net7.example.com
 HOSTNAME=$(ansible testmachine1 -m shell -a "hostname "   --user=root --extra-vars "ansible_ssh_pass=redhat1" | grep net) 2> /dev/null
-if [ $HOSTNAME == "net7.example.com" ]
+if [ $HOSTNAME == "net7.example.com" ]  2> /dev/null 
 then
 	echo "${green}5.1 The hostname is set properly${reset}"
 else
@@ -254,7 +254,7 @@ fi
 #10.0 Create a user ‘jean’ having user identity as 4032 and his home directory should be in /india/redhat.
 HOMEDIR=$(ansible testmachine1  -m shell -a "grep jean /etc/passwd" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk -F ':' '{print $6}' | awk -F "/" '{print $2}' | grep -v ^$) 2> /dev/null
 REDHAT=$(ansible testmachine1  -m shell -a "grep jean /etc/passwd" --user=root --extra-vars "ansible_ssh_pass=redhat"   | awk -F ':' '{print $6}' | awk -F "/" '{print $3}' | grep -v ^$) 2> /dev/null
-if [ $HOMEDIR == "india" ] && [ $REDHAT == "redhat" ]  2> /dev/null
+if [ $HOMEDIR == "india" ] 2> /dev/null  && [ $REDHAT == "redhat" ]  2> /dev/null
 then
 	echo "${green}10.1 The home directory is good${reset}"
 else
