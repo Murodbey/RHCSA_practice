@@ -82,6 +82,7 @@ Tasks:
 
 ___________________________________________________________________________________________________________________________
 Start from here tomorrow
+	16. Add a task related to Cron 
 
 	22. Resize logical volume 700MB total called storage in the volume group shazam, mounted at /storage.
 Resizing done while the file system is still mounted and in-use. The volume group extended to include an
