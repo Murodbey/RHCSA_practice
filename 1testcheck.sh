@@ -338,5 +338,49 @@ else
 fi
 #-----------------------------------------------------------------------------------------------------------------------------------
 
+# 16.0 The user andrew must configure a cron job that runs daily at 14:24 local time and executes echo Hello
+MINUTE=$(ansible testmachine1  -m shell -a "cat /var/spool/cron/andrew"  --user=root --extra-vars "ansible_ssh_pass=redhat1"  | awk '/24/{print $1}' )
+if [ $MINUTE -eq "24" ] 2> /dev/null 
+then
+	echo "${green}16.1 The minute  of cron is good${reset}"
+else
+	echo "${red}16.1 The minute of cron is not good${reset}"
+fi
+
+HOUR=$(ansible testmachine1  -m shell -a "cat /var/spool/cron/andrew"  --user=root --extra-vars "ansible_ssh_pass=redhat1" | awk '/14/{print $2}' )
+if [ $HOUR -eq "14" ] 2> /dev/null
+then
+	echo "${green}16.2 The hour of cron is good${reset}"
+else
+	echo "${red}16.2 hour of cron is good${reset}"
+fi 
+
+#-------------------------------------------------------------------------------------------------------------------------
+#  17.0 Resize logical volume 10G total called root in the volume group centos, mounted at /. Make sure it is permanently mounted
+SIZE=$(ansible testmachine1  -m shell -a "df -h"  --user=root --extra-vars "ansible_ssh_pass=redhat1"  | awk '/root/{print $2}')
+if [ $SIZE == "10G" ] 2> /dev/null
+then
+	echo "${green}17.1 The size of log vol is good${reset}"
+else
+	echo "${red}17.1 The size of log vol is not good${reset}"
+fi
+
+#------------------------------------------------------------------------------------------------------------------------------
+
+# 18.0 Create a logical volume called homeval, the logical volume size is 550MiB with ext4 file system. Logical volume is mounted at the /mnt/homeval.
+HOMEVAL=$(ansible testmachine1  -m shell -a "grep homeval /etc/fstab"  --user=root --extra-vars "ansible_ssh_pass=redhat1" | awk -F "/" '{print $4}' | grep -v ^$) 2> /dev/null
+if [ $HOMEVAL == "homeval" ] 2> /dev/null
+then
+	echo "${green}18.1 The homeval log vol is created${reset}"
+else
+	echo "${red}18.1 The homeval log vol is not created${reset}"
+fi
+HOMEVALMOUNTPOINT=$(ansible testmachine1  -m shell -a "grep homeval /etc/fstab"  --user=root --extra-vars "ansible_ssh_pass=redhat1" | awk -F "/" '{print $6}' | grep -v ^$ | cut -c-7) 2> /dev/null
+if [ $HOMEVALMOUNTPOINT == "homeval" ] 2> /dev/null
+then
+	echo "${green}18.2 The homeval is properly mounted${reset}"
+else
+	echo "${red}18.2 The homeval is not properly mounted${reset}"
+fi
 
 

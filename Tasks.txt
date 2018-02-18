@@ -55,6 +55,13 @@ Tasks:
 	14.0 Create a bzip2 compression of /etc directory. Name the compression file as etc.tar.bz2 and put this file in /root 	directory.
 	
 	15.0 Create 1 GB ext4 file system on second disk persistent mounted at /archive
+        
+        16.0 The user andrew must configure a cron job that runs daily at 14:24 local time and executes echo Hello
+
+        17.0 Resize logical volume 10G total called root in the volume group centos, mounted at /. Make sure it is permanently mounted
+
+        18.0 Create a logical volume called homeval, the logical volume size is 550MiB with ext4 file system. Logical
+        volume is mounted at the /mnt/homeval. 
 
 
 
