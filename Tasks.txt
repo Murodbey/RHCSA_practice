@@ -62,6 +62,9 @@ Tasks:
 
         18.0 Create a logical volume called homeval, the logical volume size is 550MiB with ext4 file system. Logical
         volume is mounted at the /mnt/homeval. 
+     
+        19.0 Create a volume group name as oraclevg which has physical extent size of 8MiB. Create a logical volume red_lvl of 100 extents 
+        assign xfs filesystem for red_lvl. red_lvl should be available permanently on oracle directory.
 
 
 

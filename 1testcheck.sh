@@ -384,3 +384,47 @@ else
 fi
 
 
+# 19.0 Create a volume group name as oraclevg which has physical extent size of 8MiB. Create a logical
+#	volume red_lvl of 100 extents assign xfs filesystem for red_lvl. red_lvl should be available
+#	permanently on oracle directory.
+EXTENT=$(ansible testmachine1  -m shell -a "vgdisplay oraclevg" --user=root | awk '/PE Size/{print $3}')  2> /dev/null
+if [ $EXTENT == "8.00" ] 2> /dev/null
+then
+        echo "${green}19.1 The extent size is good${reset}"
+else
+        echo "${red}19.1 The extent size is not good${reset}"
+fi
+
+
+RED_LVL=$(ansible testmachine1  -m shell -a "lvs" --user=root | awk '/red/{print $1}') 2> /dev/null
+if [ $RED_LVL == "red_lvl" ] 2> /dev/null
+then
+	echo "${green}19.2 The logical volume is created${reset}"
+else
+	echo "${red}19.2 The logical volume is not created${reset}"
+fi
+
+PERMANENT=$(ansible testmachine1  -m shell -a "cat /etc/fstab" --user=root | awk -F "/" '/red/{print $4}') 2> /dev/null
+if [ $PERMANENT == "red_lvl"  ] 2> /dev/null
+then
+	echo "${green}19.3 The fstab is good ${reset}"
+else
+	echo "${red}19.3 The fstab is not good ${reset}"
+fi
+
+ORACLE_MP=$(ansible testmachine1  -m shell -a "cat /etc/fstab" --user=root | awk -F "/" '/red/{print $5}'  | cut -c-6) 2> /dev/null
+if [ $ORACLE_MP == "oracle" ] 2> /dev/null
+then
+	echo "${green}19.4 The mount point is good${reset}"
+else
+	echo "${red}19.4 The mount point is not good${reset}"
+fi
+
+FILESYSTEM=$(ansible testmachine1  -m shell -a "cat /etc/fstab" --user=root | awk '/red/{print $3}') 2> /dev/null
+if [ $FILESYSTEM == "xfs" ] 2> /dev/null
+then
+	echo "${green}19.5 The filesystem is good${reset}"
+else
+	echo "${red}19.5 The filesystem is not good${reset}"
+fi
+
