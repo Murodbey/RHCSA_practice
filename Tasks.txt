@@ -7,7 +7,7 @@ Tasks:
 	2.0 Please set the following static IP
 		2.1 IP: 192.168.122.140
 		2.2 NETMASK: 255.255.255.0
-		2.3 Gateway: 192.168.122.1
+		2.3 Gateway: 192.168.122.0
 
 	3.0 Download the kernel from following link. The following criteria must also be met:
 		3.1  The updated kernel is the default kernel when the system is rebooted.
@@ -66,8 +66,7 @@ Tasks:
         19.0 Create a volume group name as oraclevg which has physical extent size of 8MiB. Create a logical volume red_lvl of 100 extents 
         assign xfs filesystem for red_lvl. red_lvl should be available permanently on oracle directory.
 
-
-
+	20. Configure your system so that it is an NTP client of 0.pool.ntp.org
 
 
 
@@ -92,7 +91,6 @@ Tasks:
 
 ___________________________________________________________________________________________________________________________
 Start from here tomorrow
-	16. Add a task related to Cron 
 
 	22. Resize logical volume 700MB total called storage in the volume group shazam, mounted at /storage.
 Resizing done while the file system is still mounted and in-use. The volume group extended to include an
@@ -100,7 +98,7 @@ additional physical volumne of 512MB giving a total volume group of 1GB.
 	23. Resize logical volume 800MB total called storage in the volume group shazam, mounted at /storage.
 Resizing done while the file system is still mounted and in-use
 
-	18. Configure your system so that it is an NTP client of classroom.example.co
+
 
 	24. Create a logical volume called homeval, the logical volume size is 550MiB with ext4 file system. Logical
 volume is mounted at the /mnt/homeval. The volume group name is vg_home, and consists of two physical
