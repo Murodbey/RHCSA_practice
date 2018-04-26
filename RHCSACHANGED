@@ -1,0 +1,54 @@
+#!/bin/bash
+# #This line makes my answers blue
+	blue=`tput setaf 4`
+# #This line makes my answers yellow
+	yellow=`tput setaf 3`
+# #This line makes my answers green
+	green=`tput setaf 2`
+# #This line makes my answers red
+	red=`tput setaf 1`
+# #This line reset thew collow
+	reset=`tput sgr0`
+
+
+while true 
+do
+	clear
+	echo "${blue}####### RHCSA MACHINE #######"
+	echo "1. Add User for RHCSA"
+	echo "2. Delete User from system"
+	read -p "Enter the options ${reset}" ANSWER
+
+	if [ $ANSWER == "1" ]
+	then
+		read -p "${green}Enter the USERs name :${reset}" USER 
+		read -p "${green}Enter the passwd for USER :${reset}" passwd 
+		useradd -G libvirt $USER
+		echo $passwd |passwd --stdin $USER
+		mkdir /home/$USER/Desktop -p
+		cp -p /root/Desktop/Tasks.txt /home/$USER/Desktop/ 
+		virsh snapshot-revert RHCSA ORIGINAL
+		virsh snapshot-create-as RHCSA $USER
+		break
+	elif [ $ANSWER == "2" ]
+	then
+		read -p "${red}Enter the usersname :${reset}" USER 
+		CHECK=$(cat /etc/passwd | grep -o $USER | head -n1)
+		if [[ $USER == $CHECK ]]
+		then  
+			pkill -u $USER 
+			userdel -r $USER 
+			virsh snapshot-revert RHCSA ORIGINAL
+			virsh snapshot-delete RHCSA $USER
+			break
+		else	
+			echo "${yellow}The username $USER doesn't exist"
+			sleep 1
+		fi
+	else 
+		echo "${yellow}You chosed wrong options"
+		sleep 1
+	fi
+done
+
+
